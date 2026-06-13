@@ -3,11 +3,11 @@
 import { useState } from 'react';
 
 const questions = [
-  'Quelle est l’année, la marque et le modèle du véhicule?',
-  'Connaissez-vous le moteur exact ou le litrages?',
+  'Quel est l’année, la marque et le modèle du véhicule?',
+  'Quel moteur recherchez-vous exactement?',
   'Avez-vous le VIN ou le 8e caractère du VIN?',
   'Dans quelle ville doit-on livrer?',
-  'Voulez-vous seulement le moteur ou aussi l’installation?',
+  'Voulez-vous le moteur seulement ou l’installation aussi?',
 ];
 
 export default function AIAssistant() {
@@ -15,35 +15,42 @@ export default function AIAssistant() {
   const [step, setStep] = useState(0);
 
   return (
-    <div className="rounded-3xl border border-orange-400/30 bg-orange-500/10 p-6 shadow-glow">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-sm uppercase tracking-[0.25em] text-orange-300">Assistant IA vocal</p>
-          <h2 className="mt-2 text-3xl font-bold">Parlez à notre IA moteur</h2>
-          <p className="mt-3 text-white/70">L’agent pose les bonnes questions, qualifie la demande et prépare la soumission.</p>
-        </div>
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-orange-500 text-3xl text-black">🎙️</div>
+    <div className="grid overflow-hidden rounded-[2rem] border border-white/10 bg-[#101010] lg:grid-cols-[0.9fr_1.1fr]">
+      <div className="border-b border-white/10 p-7 lg:border-b-0 lg:border-r">
+        <p className="text-sm uppercase tracking-[0.3em] text-orange-400">Assistant IA</p>
+        <h2 className="mt-3 text-4xl font-black leading-tight">Un vendeur IA qui qualifie le client.</h2>
+        <p className="mt-4 leading-7 text-white/58">Version prototype : l’interface montre le parcours vocal. La vraie voix sera branchée ensuite avec OpenAI Realtime.</p>
+        <button onClick={() => setOpen(true)} className="mt-7 rounded-2xl bg-orange-500 px-6 py-4 font-black text-black transition hover:bg-orange-400">🎙️ Démarrer l’assistant</button>
       </div>
 
-      <button onClick={() => setOpen(true)} className="mt-6 rounded-xl bg-white px-5 py-3 font-bold text-black transition hover:bg-orange-100">Démarrer l’assistant IA</button>
+      <div className="bg-black/35 p-7">
+        <div className="rounded-3xl border border-white/10 bg-[#070707] p-5">
+          <div className="mb-5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-orange-500 text-xl text-black">AI</div>
+              <div>
+                <div className="font-black">Agent moteur</div>
+                <div className="text-xs text-white/40">Qualification vocale</div>
+              </div>
+            </div>
+            <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/50">MVP</div>
+          </div>
 
-      {open && (
-        <div className="mt-6 rounded-2xl border border-white/10 bg-black/40 p-5">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="relative flex h-3 w-3">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75"></span>
-              <span className="relative inline-flex h-3 w-3 rounded-full bg-orange-500"></span>
-            </span>
-            <span className="text-sm text-orange-200">Simulation IA vocale</span>
+          <div className="space-y-3">
+            <div className="max-w-[85%] rounded-2xl bg-white/10 p-4 text-sm leading-6 text-white/70">Bonjour, je vais vous aider à trouver le bon moteur. Je vais vous poser quelques questions rapides.</div>
+            {open && <div className="ml-auto max-w-[85%] rounded-2xl bg-orange-500 p-4 text-sm font-bold leading-6 text-black">{questions[step]}</div>}
           </div>
-          <p className="text-xl font-semibold">{questions[step]}</p>
-          <p className="mt-2 text-sm text-white/55">Version MVP: prochaine étape connecter OpenAI Realtime/WebRTC pour vraie voix.</p>
-          <div className="mt-4 flex gap-3">
-            <button onClick={() => setStep((s) => Math.min(s + 1, questions.length - 1))} className="rounded-lg bg-orange-500 px-4 py-2 font-bold text-black">Question suivante</button>
-            <button onClick={() => setOpen(false)} className="rounded-lg border border-white/15 px-4 py-2 text-white/80">Fermer</button>
-          </div>
+
+          {open ? (
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button onClick={() => setStep((s) => Math.min(s + 1, questions.length - 1))} className="rounded-xl bg-white px-4 py-3 text-sm font-black text-black">Question suivante</button>
+              <button onClick={() => { setOpen(false); setStep(0); }} className="rounded-xl border border-white/10 px-4 py-3 text-sm font-bold text-white/65">Réinitialiser</button>
+            </div>
+          ) : (
+            <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-sm text-white/45">Cliquez sur Démarrer pour voir la simulation.</div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
