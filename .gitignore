@@ -1,0 +1,7 @@
+carpart_chrome_profile/
+__pycache__/
+*.pyc
+*.log
+.env
+.DS_Store
+.pytest_cache/
